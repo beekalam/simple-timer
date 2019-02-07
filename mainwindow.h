@@ -24,6 +24,7 @@ private:
     Ui::MainWindow *ui;
     int seconds;
     void paintEvent(QPaintEvent *event) override;
+    QString timeString();
 };
 
 #endif // MAINWINDOW_H
