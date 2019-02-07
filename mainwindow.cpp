@@ -23,19 +23,22 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_BtnStart_clicked()
 {
-    QTimer *timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(timerUpdate()));
+    this->timer = new QTimer(this);
+    connect(this->timer, SIGNAL(timeout()), this, SLOT(timerUpdate()));
     this->seconds = ui->spinBox->value() * 60;
-    timer->start(1000);
+    this->timer->start(1000);
+    ui->BtnStart->setEnabled(false);
+    ui->BtnStop->setEnabled(true);
 }
 
 void MainWindow::timerUpdate()
 {
-    qDebug() << " in timer update" << endl;
+                                                    qDebug() << " in timer update" << endl;
     this->seconds--;
-    qDebug() << "std string is: " << this->timeString();
-    ui->textEdit->setText(this->timeString());
-    setWindowTitle(this->timeString());
+    QString timeString(this->timeString());
+                                                    qDebug() << "std string is: " << timeString;
+    ui->textEdit->setText(timeString);
+    setWindowTitle(timeString);
 }
 
 void MainWindow::paintEvent(QPaintEvent *event)
@@ -62,3 +65,11 @@ QString MainWindow::timeString()
 }
 
 
+
+void MainWindow::on_BtnStop_clicked()
+{
+    this->timer->stop();
+    delete this->timer;
+    ui->BtnStart->setEnabled(true);
+    ui->BtnStop->setEnabled(false);
+}

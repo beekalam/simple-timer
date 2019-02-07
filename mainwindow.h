@@ -20,9 +20,12 @@ private slots:
     void on_BtnStart_clicked();
     void timerUpdate();
 
+    void on_BtnStop_clicked();
+
 private:
     Ui::MainWindow *ui;
     int seconds;
+    QTimer *timer;
     void paintEvent(QPaintEvent *event) override;
     QString timeString();
 };

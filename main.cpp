@@ -9,3 +9,4 @@ int main(int argc, char *argv[])
 
     return a.exec();
 }
+// todo update time output on spinbox change
