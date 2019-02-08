@@ -33,12 +33,10 @@ void MainWindow::on_BtnStart_clicked()
 
 void MainWindow::timerUpdate()
 {
-                                                    qDebug() << " in timer update" << endl;
     this->seconds--;
-    QString timeString(this->timeString());
-                                                    qDebug() << "std string is: " << timeString;
-    ui->textEdit->setText(timeString);
-    setWindowTitle(timeString);
+    QString timeStr= timeString();
+    setTimeValue(timeStr);
+    setWindowTitle(timeStr);
 }
 
 void MainWindow::paintEvent(QPaintEvent *event)
@@ -64,7 +62,15 @@ QString MainWindow::timeString()
     return QString::fromStdString(s);
 }
 
+void MainWindow::setTimeValue(QString timeString)
+{
+    ui->textEdit->setText(timeString);
+}
 
+void MainWindow::setSeconds(int value)
+{
+    seconds = value;
+}
 
 void MainWindow::on_BtnStop_clicked()
 {
@@ -72,4 +78,11 @@ void MainWindow::on_BtnStop_clicked()
     delete this->timer;
     ui->BtnStart->setEnabled(true);
     ui->BtnStop->setEnabled(false);
+}
+
+void MainWindow::on_spinBox_valueChanged(int minutes)
+{
+    qDebug()<< "arg1: " << minutes << endl;
+    setSeconds(minutes * 60);
+    setTimeValue(timeString());
 }

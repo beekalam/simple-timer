@@ -22,12 +22,16 @@ private slots:
 
     void on_BtnStop_clicked();
 
+    void on_spinBox_valueChanged(int arg1);
+
 private:
     Ui::MainWindow *ui;
     int seconds;
     QTimer *timer;
     void paintEvent(QPaintEvent *event) override;
     QString timeString();
+    void setSeconds(int);
+    void setTimeValue(QString);
 };
 
 #endif // MAINWINDOW_H
