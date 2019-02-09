@@ -32,6 +32,7 @@ private:
     QString timeString();
     void setSeconds(int);
     void setTimeValue(QString);
+    void countDown();
 };
 
 #endif // MAINWINDOW_H
