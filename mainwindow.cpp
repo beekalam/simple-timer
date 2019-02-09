@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QCoreApplication>
 #include <QtWidgets>
 #include <QtDebug>
 #include <QTextStream>
@@ -11,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+//    createActions();
+    createTrayIcon();
     setTimeValue("00:00:00");
 //    setWindowTitle(tr("Analog clock"));
 //    resize(200,200);
@@ -21,8 +24,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
 void MainWindow::on_BtnStart_clicked()
 {
+    qDebug() <<"starting timer." << endl;
     this->timer = new QTimer(this);
     connect(this->timer, SIGNAL(timeout()), this, SLOT(timerUpdate()));
     setSeconds(ui->spinBox->value() * 60);
@@ -77,6 +82,18 @@ void MainWindow::countDown()
     }
 }
 
+void MainWindow::changeEvent(QEvent *e)
+{
+    qDebug() << "inside closeevent" << endl;
+    qDebug() << windowState() << endl;
+    qDebug() << e->type() << endl;
+
+    if (e->type() == QEvent::WindowStateChange && windowState() & Qt::WindowMinimized){
+        QMetaObject::invokeMethod(this, "hide", Qt::QueuedConnection);
+    }
+    QMainWindow::changeEvent(e);
+}
+
 void MainWindow::setSeconds(int value)
 {
     seconds = value;
@@ -95,4 +112,19 @@ void MainWindow::on_spinBox_valueChanged(int minutes)
     qDebug()<< "arg1: " << minutes << endl;
     setSeconds(minutes * 60);
     setTimeValue(timeString());
+}
+
+void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
+{
+    qDebug() << "in iconactivated" << endl;
+}
+
+void MainWindow::createTrayIcon()
+{
+    trayIcon = new QSystemTrayIcon(this);
+    trayIcon->setIcon(this->style()->standardIcon(QStyle::SP_ComputerIcon));
+    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+               this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+    trayIcon->show();
+
 }
