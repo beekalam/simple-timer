@@ -42,6 +42,11 @@ private:
     void createTrayIcon();
     QSystemTrayIcon *trayIcon;
 
+    QAction *minimizeAction;
+    QAction *maximizeAction;
+    QAction *restoreAction;
+    QAction *quitAction;
+    QMenu *trayIconMenu;
     // QWidget interface
 protected:
     void changeEvent(QEvent *);

@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-//    createActions();
+    createActions();
     createTrayIcon();
     setTimeValue("00:00:00");
 //    setWindowTitle(tr("Analog clock"));
@@ -82,6 +82,8 @@ void MainWindow::countDown()
     }
 }
 
+
+
 void MainWindow::changeEvent(QEvent *e)
 {
     qDebug() << "inside closeevent" << endl;
@@ -119,12 +121,37 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
     qDebug() << "in iconactivated" << endl;
 }
 
+void MainWindow::createActions()
+{
+    minimizeAction = new QAction("Minimize",this);
+    connect(minimizeAction, &QAction::triggered, this, &QWidget::hide);
+
+    maximizeAction = new QAction("Maximize",this);
+    connect(maximizeAction, &QAction::triggered, this, &QWidget::showMaximized);
+
+    restoreAction = new QAction("restore", this);
+    connect(restoreAction, &QAction::triggered, this, &QWidget::showNormal);
+
+    quitAction = new QAction("quit",this);
+    connect(quitAction, &QAction::triggered, this,&QApplication::quit);
+
+}
+
 void MainWindow::createTrayIcon()
 {
+    trayIconMenu = new QMenu(this);
+    trayIconMenu->addAction(minimizeAction);
+    trayIconMenu->addAction(maximizeAction);
+    trayIconMenu->addAction(restoreAction);
+    trayIconMenu->addAction(quitAction);
+
     trayIcon = new QSystemTrayIcon(this);
     trayIcon->setIcon(this->style()->standardIcon(QStyle::SP_ComputerIcon));
+    trayIcon->setContextMenu(trayIconMenu);
     connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
                this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+
+
     trayIcon->show();
 
 }
