@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     createActions();
     createTrayIcon();
     setTimeValue("00:00:00");
-//    setWindowTitle(tr("Analog clock"));
+    setWindowTitle(tr("Simple Timer"));
 //    resize(200,200);
 }
 
@@ -82,13 +82,11 @@ void MainWindow::countDown()
     }
 }
 
-
-
 void MainWindow::changeEvent(QEvent *e)
 {
-    qDebug() << "inside closeevent" << endl;
-    qDebug() << windowState() << endl;
-    qDebug() << e->type() << endl;
+//    qDebug() << "inside closeevent" << endl;
+//    qDebug() << windowState() << endl;
+//    qDebug() << e->type() << endl;
 
     if (e->type() == QEvent::WindowStateChange && windowState() & Qt::WindowMinimized){
         QMetaObject::invokeMethod(this, "hide", Qt::QueuedConnection);
@@ -154,4 +152,25 @@ void MainWindow::createTrayIcon()
 
     trayIcon->show();
 
+}
+
+void MainWindow::reset()
+{
+    timer->stop();
+    delete timer;
+    ui->BtnStart->setEnabled(true);
+    ui->BtnStop->setEnabled(false);
+    setSeconds(ui->spinBox->value() * 60);
+    QString timeStr= timeString();
+    setTimeValue(timeStr);
+}
+
+void MainWindow::on_actionExit_triggered()
+{
+    QApplication::quit();
+}
+
+void MainWindow::on_actionReset_triggered()
+{
+    reset();
 }

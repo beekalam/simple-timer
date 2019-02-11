@@ -25,12 +25,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp \
-    analogclock.cpp
+        mainwindow.cpp
 
 HEADERS += \
-        mainwindow.h \
-    analogclock.h
+        mainwindow.h
 
 FORMS += \
         mainwindow.ui

@@ -29,6 +29,10 @@ private slots:
     void on_spinBox_valueChanged(int arg1);
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
 
+    void on_actionExit_triggered();
+
+    void on_actionReset_triggered();
+
 private:
     Ui::MainWindow *ui;
     int seconds;
@@ -40,6 +44,7 @@ private:
     void countDown();
     void createActions();
     void createTrayIcon();
+    void reset();
     QSystemTrayIcon *trayIcon;
 
     QAction *minimizeAction;
