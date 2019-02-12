@@ -52,6 +52,7 @@ private:
     QAction *maximizeAction;
     QAction *restoreAction;
     QAction *quitAction;
+    QAction *nullAction;
     QMenu *trayIconMenu;
     // QWidget interface
 protected:

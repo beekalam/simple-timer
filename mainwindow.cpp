@@ -43,6 +43,7 @@ void MainWindow::timerUpdate()
     QString timeStr= timeString();
     setTimeValue(timeStr);
     setWindowTitle(timeStr);
+    nullAction->setText(timeStr);
 }
 
 void MainWindow::paintEvent(QPaintEvent *event)
@@ -80,7 +81,6 @@ void MainWindow::countDown()
         timer->stop();
         delete timer;
         showMessage("Time's Up","Time's Up");
-        ui->spinBox->setEnabled(true);
         ui->BtnStart->setEnabled(true);
         ui->BtnStop->setEnabled(false);
         // todo: loop timer or not.
@@ -145,11 +145,16 @@ void MainWindow::createActions()
     quitAction = new QAction("quit",this);
     connect(quitAction, &QAction::triggered, this,&QApplication::quit);
 
+    nullAction  = new QAction("00:00:00",this);
+    connect(nullAction, &QAction::triggered, this, &QWidget::showNormal);
+
 }
 
 void MainWindow::createTrayIcon()
 {
     trayIconMenu = new QMenu(this);
+    trayIconMenu->addAction(nullAction);
+    trayIconMenu->addSeparator();
     trayIconMenu->addAction(minimizeAction);
     trayIconMenu->addAction(maximizeAction);
     trayIconMenu->addAction(restoreAction);
