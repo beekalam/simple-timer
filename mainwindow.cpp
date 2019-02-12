@@ -32,6 +32,7 @@ void MainWindow::on_BtnStart_clicked()
     connect(this->timer, SIGNAL(timeout()), this, SLOT(timerUpdate()));
     setSeconds(ui->spinBox->value() * 60);
     this->timer->start(1000);
+    ui->spinBox->setEnabled(false);
     ui->BtnStart->setEnabled(false);
     ui->BtnStop->setEnabled(true);
 }
@@ -79,6 +80,7 @@ void MainWindow::countDown()
         timer->stop();
         delete timer;
         showMessage("Time's Up","Time's Up");
+        ui->spinBox->setEnabled(true);
         ui->BtnStart->setEnabled(true);
         ui->BtnStop->setEnabled(false);
         // todo: loop timer or not.
@@ -114,6 +116,7 @@ void MainWindow::on_BtnStop_clicked()
     delete timer;
     ui->BtnStart->setEnabled(true);
     ui->BtnStop->setEnabled(false);
+    ui->spinBox->setEnabled(true);
 }
 
 void MainWindow::on_spinBox_valueChanged(int minutes)
