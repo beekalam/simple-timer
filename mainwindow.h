@@ -45,6 +45,7 @@ private:
     void createActions();
     void createTrayIcon();
     void reset();
+    void showMessage(QString,QString);
     QSystemTrayIcon *trayIcon;
 
     QAction *minimizeAction;

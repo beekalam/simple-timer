@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     createTrayIcon();
     setTimeValue("00:00:00");
     setWindowTitle(tr("Simple Timer"));
+    showMessage(QString("test"),QString("test"));
 //    resize(200,200);
 }
 
@@ -77,6 +78,7 @@ void MainWindow::countDown()
 {
     if(this->seconds <= 0){
         timer->stop();
+        showMessage("time....","............");
     }else{
         seconds--;
     }
@@ -163,6 +165,11 @@ void MainWindow::reset()
     setSeconds(ui->spinBox->value() * 60);
     QString timeStr= timeString();
     setTimeValue(timeStr);
+}
+
+void MainWindow::showMessage(QString title,QString content)
+{
+    trayIcon->showMessage(title,content);
 }
 
 void MainWindow::on_actionExit_triggered()
