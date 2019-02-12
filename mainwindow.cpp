@@ -16,7 +16,6 @@ MainWindow::MainWindow(QWidget *parent) :
     createTrayIcon();
     setTimeValue("00:00:00");
     setWindowTitle(tr("Simple Timer"));
-    showMessage(QString("test"),QString("test"));
 //    resize(200,200);
 }
 
@@ -78,7 +77,19 @@ void MainWindow::countDown()
 {
     if(this->seconds <= 0){
         timer->stop();
-        showMessage("time....","............");
+        delete timer;
+        showMessage("Time's Up","Time's Up");
+        ui->BtnStart->setEnabled(true);
+        ui->BtnStop->setEnabled(false);
+        // todo: loop timer or not.
+        if(true){
+            timer = new QTimer(this);
+            connect(this->timer, SIGNAL(timeout()), this, SLOT(timerUpdate()));
+            setSeconds(ui->spinBox->value() * 60);
+            this->timer->start(1000);
+            ui->BtnStart->setEnabled(false);
+            ui->BtnStop->setEnabled(true);
+        }
     }else{
         seconds--;
     }
@@ -86,10 +97,6 @@ void MainWindow::countDown()
 
 void MainWindow::changeEvent(QEvent *e)
 {
-//    qDebug() << "inside closeevent" << endl;
-//    qDebug() << windowState() << endl;
-//    qDebug() << e->type() << endl;
-
     if (e->type() == QEvent::WindowStateChange && windowState() & Qt::WindowMinimized){
         QMetaObject::invokeMethod(this, "hide", Qt::QueuedConnection);
     }
